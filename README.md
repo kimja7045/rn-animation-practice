@@ -1,4 +1,6 @@
 # Animation Practice
 
-1. reanimated 4 - GradientText - 
-https://github.com/user-attachments/assets/4aa7d45c-9994-4bd9-a971-60a12f22201d
+### reanimated 4
+1. GradientText
+
+  <img height=350 src="https://github.com/kimja7045/rn-animation-practice/blob/main/assets/gradient-text.gif?raw=true">
