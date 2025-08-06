@@ -25,7 +25,7 @@ export const Footer = () => {
   };
 
   return (
-    <View style={styles.footer}>
+    <View style={styles.container}>
       <TextInput
         ref={textInputRef}
         style={[
@@ -68,6 +68,13 @@ export const Footer = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    bottom: 80,
+    flexDirection: "row",
+    gap: 10,
+    padding: 16,
+  },
   content: {
     flex: 1,
   },
@@ -87,13 +94,5 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-  },
-  footer: {
-    flexDirection: "row",
-    position: "absolute",
-    bottom: 16,
-    flex: 1,
-    gap: 10,
-    padding: 16,
   },
 });
