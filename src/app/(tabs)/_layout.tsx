@@ -3,10 +3,10 @@ import React from "react";
 import { Platform } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -33,8 +33,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "GradientText",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name="gradient"
+              size={focused ? 28 : 24}
+              color={color}
+            />
           ),
         }}
       />
@@ -42,8 +46,25 @@ export default function TabLayout() {
         name="DarkModeOverlay"
         options={{
           title: "DarkModeOverlay",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name="dark-mode"
+              size={focused ? 28 : 24}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Skia"
+        options={{
+          title: "Skia",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name="graphic-eq"
+              size={focused ? 28 : 24}
+              color={color}
+            />
           ),
         }}
       />
