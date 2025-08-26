@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import { HelloWorld } from "../../_skia/component/HelloWorld";
 import { useColorScheme } from "../../hooks/useColorScheme";
 
 export default function SkiaTabScreen() {
@@ -7,9 +8,7 @@ export default function SkiaTabScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
-      <View>
-        <Text>Skia</Text>
-      </View>
+      <HelloWorld />
     </SafeAreaView>
   );
 }
