@@ -1,19 +1,23 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import { useColorScheme } from "../../hooks/useColorScheme";
+import { useTheme } from "../../hooks/useTheme";
+import { Board } from "../../stickerDnD/component/Board";
 import { StickerList } from "../../stickerDnD/component/StickerList";
 
 export default function StickerDnDTabScreen() {
-  const colorScheme = useColorScheme();
-  const backgroundColor = colorScheme === "dark" ? "#151718" : "white";
+  const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.safeAreaView, { backgroundColor }]}>
+    <SafeAreaView
+      style={[styles.safeAreaView, { backgroundColor: colors.primary }]}>
       <View style={styles.container}>
+        <Board />
         <StickerList />
       </View>
     </SafeAreaView>
   );
 }
+
+const BOTTOM_TAB_HEIGHT = 48;
 
 const styles = StyleSheet.create({
   safeAreaView: {
@@ -21,7 +25,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    marginBottom: BOTTOM_TAB_HEIGHT,
   },
 });
