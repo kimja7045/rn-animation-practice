@@ -1,0 +1,15 @@
+export const stickers = [
+  require("./apple.png"),
+  require("./facebook.png"),
+  require("./google.png"),
+  require("./instagram.png"),
+  require("./linkedin.png"),
+  require("./telegram.png"),
+  require("./twitter.png"),
+  require("./youtube.png"),
+  //   require("./github.png"),
+  //   require("./spotify.png"),
+  //   require("./microsoft.png"),
+  //   require("./amazon.png"),
+  //   require("./tesla.png"),
+];
