@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 16,
     padding: 16,
-    marginTop: 8,
+    marginTop: 16,
   },
 });

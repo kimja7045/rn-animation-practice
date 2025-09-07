@@ -3,16 +3,16 @@ import { useColorScheme } from "react-native";
 const theme = {
   light: {
     colors: {
-      primary: "#dc2626",
+      primary: "skyblue",
       secondary: "#fff",
-      white: "#fff",
+      default: "white",
     },
   },
   dark: {
     colors: {
-      primary: "#991b1b",
-      secondary: "#052e16",
-      white: "#fff",
+      primary: "skyblue",
+      secondary: "#fff",
+      default: "white",
     },
   },
 };
