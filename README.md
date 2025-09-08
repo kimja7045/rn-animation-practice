@@ -6,6 +6,6 @@
   <img height=800 src="https://github.com/kimja7045/rn-animation-practice/blob/main/src/assets/gradient-text.gif?raw=true">
 
 ### react-native-skia
-1. canvas drawing
+1. canvas drawing with react-native-skia > Path
 
   <img height=800 src="https://github.com/user-attachments/blob/main/src/assets/f764f388-e256-4868-b6a2-586e1c53bf85">
