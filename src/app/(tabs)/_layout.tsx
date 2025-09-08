@@ -43,12 +43,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="DarkModeOverlay"
+        name="StickerDnD"
         options={{
-          title: "DarkModeOverlay",
+          title: "StickerDnD",
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons
-              name="dark-mode"
+              name="drag-indicator"
               size={focused ? 28 : 24}
               color={color}
             />
