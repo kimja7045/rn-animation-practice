@@ -9,9 +9,15 @@ import Animated, {
 
 export const Sticker = ({ sticker }: { sticker: ImageSourcePropType }) => {
   const pressed = useSharedValue(false);
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: withSpring(pressed.value ? 1.5 : 1) }],
+    transform: [
+      { scale: withSpring(pressed.value ? 1.5 : 1) },
+      { translateX: translateX.value },
+      { translateY: translateY.value },
+    ],
   }));
 
   const tapGesture = Gesture.Tap()
@@ -22,8 +28,13 @@ export const Sticker = ({ sticker }: { sticker: ImageSourcePropType }) => {
       pressed.value = false;
     });
 
+  const panGesture = Gesture.Pan().onChange((event) => {
+    translateX.value += event.changeX;
+    translateY.value += event.changeY;
+  });
+
   return (
-    <GestureDetector gesture={tapGesture}>
+    <GestureDetector gesture={Gesture.Simultaneous(tapGesture, panGesture)}>
       <Animated.Image
         source={sticker}
         style={[styles.sticker, animatedStyle]}
