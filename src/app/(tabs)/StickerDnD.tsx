@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
 import { Board } from "../../stickerDnD/component/Board";
@@ -5,13 +6,18 @@ import { StickerList } from "../../stickerDnD/component/StickerList";
 
 export default function StickerDnDTabScreen() {
   const { colors } = useTheme();
+  const [reset, setReset] = useState(0);
+
+  const onReset = useCallback(() => {
+    setReset((prev) => prev + 1);
+  }, []);
 
   return (
     <SafeAreaView
       style={[styles.safeAreaView, { backgroundColor: colors.primary }]}>
       <View style={styles.container}>
-        <Board />
-        <StickerList />
+        <Board onReset={onReset} />
+        <StickerList key={reset} />
       </View>
     </SafeAreaView>
   );
