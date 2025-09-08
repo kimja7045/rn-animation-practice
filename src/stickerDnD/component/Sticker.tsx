@@ -20,21 +20,20 @@ export const Sticker = ({ sticker }: { sticker: ImageSourcePropType }) => {
     ],
   }));
 
-  const tapGesture = Gesture.Tap()
+  const panGesture = Gesture.Pan()
     .onBegin(() => {
-      pressed.value = !pressed.value;
+      pressed.value = true;
+    })
+    .onChange((event) => {
+      translateX.value += event.changeX;
+      translateY.value += event.changeY;
     })
     .onEnd(() => {
       pressed.value = false;
     });
 
-  const panGesture = Gesture.Pan().onChange((event) => {
-    translateX.value += event.changeX;
-    translateY.value += event.changeY;
-  });
-
   return (
-    <GestureDetector gesture={Gesture.Simultaneous(tapGesture, panGesture)}>
+    <GestureDetector gesture={panGesture}>
       <Animated.Image
         source={sticker}
         style={[styles.sticker, animatedStyle]}
