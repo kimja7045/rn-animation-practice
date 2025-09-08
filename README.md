@@ -9,3 +9,7 @@
 1. canvas drawing
 
   <img height=800 src="https://github.com/user-attachments/blob/main/src/assets/f764f388-e256-4868-b6a2-586e1c53bf85">
+
+### react-native-gesture-handler
+1. sticker dnd with Gesture.pan & reanimated
+  <img height=800 src="https://github.com/user-attachments/blob/main/src/assets/b130897a-53e4-4cb6-8b88-849bee674892">
