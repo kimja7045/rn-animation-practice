@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import Animated, {
   clamp,
+  FadeIn,
+  FadeOut,
   interpolate,
   interpolateColor,
   SharedValue,
@@ -41,6 +43,15 @@ export const CircularCarousel = () => {
 
   return (
     <View style={styles.container}>
+      <View style={[StyleSheet.absoluteFillObject]}>
+        <Animated.Image
+          key={`image-${activeIndex}`}
+          entering={FadeIn.duration(500)}
+          exiting={FadeOut.duration(500)}
+          style={{ flex: 1, width: width, height: width }}
+          source={CAROUSEL_IMAGES[activeIndex]}
+        />
+      </View>
       <Animated.FlatList
         style={styles.listContainer}
         contentContainerStyle={{
