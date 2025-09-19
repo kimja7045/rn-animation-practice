@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import Animated, {
   clamp,
+  interpolate,
+  interpolateColor,
+  SharedValue,
   useAnimatedScrollHandler,
+  useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
 import { runOnJS } from "react-native-worklets";
@@ -45,7 +49,9 @@ export const CircularCarousel = () => {
         }}
         data={CAROUSEL_IMAGES}
         keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => <CarouselItem imageUrl={item} />}
+        renderItem={({ item, index }) => (
+          <CarouselItem imageUrl={item} index={index} scrollX={scrollX} />
+        )}
         horizontal
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
@@ -57,9 +63,37 @@ export const CircularCarousel = () => {
   );
 };
 
-const CarouselItem = ({ imageUrl }: { imageUrl: ImageSourcePropType }) => {
+const CarouselItem = ({
+  imageUrl,
+  index,
+  scrollX,
+}: {
+  imageUrl: ImageSourcePropType;
+  index: number;
+  scrollX: SharedValue<number>;
+}) => {
+  const stylez = useAnimatedStyle(() => {
+    return {
+      borderWidth: 4,
+      borderColor: interpolateColor(
+        scrollX.value,
+        [index - 1, index, index + 1],
+        ["transparent", "transparent", "transparent"],
+      ),
+      transform: [
+        {
+          translateY: interpolate(
+            scrollX.value,
+            [index - 1, index, index + 1],
+            [ITEM_SIZE / 3, 0, ITEM_SIZE / 3],
+          ),
+        },
+      ],
+    };
+  });
+
   return (
-    <Animated.View style={[styles.image]}>
+    <Animated.View style={[styles.image, stylez]}>
       <Image source={imageUrl} style={styles.image} />
     </Animated.View>
   );
