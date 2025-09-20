@@ -50,12 +50,28 @@ export const ThreeDimensionalCarousel = () => {
             height: IMAGE_HEIGHT / 2 + SPACING * 2,
           }}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
+            const inputRange = [
+              (index - 1) * width,
+              index * width,
+              (index + 1) * width,
+            ];
+            const opacity = scrollX.interpolate({
+              inputRange,
+              outputRange: [0, 1, 0],
+            });
+            const translateY = scrollX.interpolate({
+              inputRange,
+              outputRange: [50, 0, 20],
+            });
+
             return (
               <Animated.View
                 style={{
                   width,
                   paddingVertical: SPACING,
+                  opacity,
+                  transform: [{ translateY }],
                 }}>
                 <Image
                   source={item.image}
