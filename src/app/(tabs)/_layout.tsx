@@ -43,6 +43,19 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="CircularCarousel"
+        options={{
+          title: "CircularCarousel",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name="view-carousel"
+              size={focused ? 28 : 24}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="StickerDnD"
         options={{
           title: "StickerDnD",
