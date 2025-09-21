@@ -88,7 +88,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons
               name="3d-rotation"
-              size={focused ? 26 : 24}
+              size={focused ? 24 : 22}
               color={color}
             />
           ),
