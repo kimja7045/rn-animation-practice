@@ -1,11 +1,14 @@
-import { useRef } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { useCallback, useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
+  FlatList,
   Image,
   ImageSourcePropType,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,11 +33,13 @@ const DATA = image_urls.map((image, index) => ({
 export const ThreeDimensionalCarousel = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const progress = Animated.modulo(Animated.divide(scrollX, width), width);
+  const flatListRef = useRef<FlatList>(null);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ height: IMAGE_HEIGHT * 1.8, alignItems: "center" }}>
         <Animated.FlatList
+          ref={flatListRef}
           data={DATA}
           keyExtractor={(item) => item.key}
           horizontal
@@ -59,6 +64,7 @@ export const ThreeDimensionalCarousel = () => {
           style={{
             width: IMAGE_WIDTH,
             alignItems: "center",
+            zIndex: 99,
           }}>
           {DATA.map((item, index) => {
             const inputRange = [
@@ -96,7 +102,7 @@ export const ThreeDimensionalCarousel = () => {
             backgroundColor: "white",
             backfaceVisibility: "visible",
             zIndex: -1,
-            top: SPACING * 1.5,
+            top: SPACING * 2,
             shadowColor: "#000",
             shadowOpacity: 0.2,
             shadowRadius: 24,
@@ -115,7 +121,57 @@ export const ThreeDimensionalCarousel = () => {
           }}
         />
       </View>
+      {flatListRef.current && (
+        <CarouselIndexController listRef={flatListRef.current} />
+      )}
     </SafeAreaView>
+  );
+};
+
+const CarouselIndexController = ({ listRef }: { listRef: FlatList }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const changeIndex = useCallback(
+    (newIndex: number) => {
+      listRef.scrollToOffset({
+        offset: newIndex * width,
+        animated: true,
+      });
+      setActiveIndex(newIndex);
+    },
+    [listRef],
+  );
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: SPACING,
+        paddingHorizontal: SPACING * 2,
+      }}>
+      <TouchableOpacity
+        disabled={activeIndex === 0}
+        style={{ opacity: activeIndex === 0 ? 0.2 : 1 }}
+        onPress={() => {
+          changeIndex(activeIndex - 1);
+        }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <AntDesign name="swapleft" size={42} color="black" />
+          <Text style={{ fontSize: 12, fontWeight: "800" }}>PREV</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        disabled={activeIndex === DATA.length - 1}
+        style={{ opacity: activeIndex === DATA.length - 1 ? 0.2 : 1 }}
+        onPress={() => {
+          changeIndex(activeIndex + 1);
+        }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <AntDesign name="swapright" size={42} color="black" />
+          <Text style={{ fontSize: 12, fontWeight: "800" }}>NEXT</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 };
 
