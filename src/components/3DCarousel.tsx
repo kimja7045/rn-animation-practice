@@ -1,21 +1,20 @@
-import { AntDesign } from "@expo/vector-icons";
 import { useRef } from "react";
 import {
   Animated,
   Dimensions,
   Image,
-  SafeAreaView,
+  ImageSourcePropType,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { minions } from "../assets/images/minions";
 
 const { width, height } = Dimensions.get("screen");
 
-const IMAGE_WIDTH = width * 0.7;
-const IMAGE_HEIGHT = height * 0.7;
+const IMAGE_WIDTH = width * 0.65;
+const IMAGE_HEIGHT = height * 0.35;
 const SPACING = 20;
 
 const image_urls = [...minions];
@@ -30,10 +29,11 @@ const DATA = image_urls.map((image, index) => ({
 
 export const ThreeDimensionalCarousel = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
+  const progress = Animated.modulo(Animated.divide(scrollX, width), width);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ height: IMAGE_HEIGHT * 2.1 }}>
+      <View style={{ height: IMAGE_HEIGHT * 1.8, alignItems: "center" }}>
         <Animated.FlatList
           data={DATA}
           keyExtractor={(item) => item.key}
@@ -45,90 +45,115 @@ export const ThreeDimensionalCarousel = () => {
               useNativeDriver: true,
             },
           )}
-          style={{ flexGrow: 0 }}
+          bounces={false}
+          style={{ flexGrow: 0, zIndex: 9999 }}
           contentContainerStyle={{
-            height: IMAGE_HEIGHT / 2 + SPACING * 2,
+            height: IMAGE_HEIGHT + SPACING * 2,
           }}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => {
-            const inputRange = [
-              (index - 1) * width,
-              index * width,
-              (index + 1) * width,
-            ];
-            const opacity = scrollX.interpolate({
-              inputRange,
-              outputRange: [0, 1, 0],
-            });
-            const translateY = scrollX.interpolate({
-              inputRange,
-              outputRange: [50, 0, 20],
-            });
-
-            return (
-              <Animated.View
-                style={{
-                  width,
-                  paddingVertical: SPACING,
-                  opacity,
-                  transform: [{ translateY }],
-                }}>
-                <Image
-                  source={item.image}
-                  style={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT / 2 }}
-                />
-              </Animated.View>
-            );
-          }}
+          renderItem={({ item, index }) => (
+            <CarouselItem image={item.image} index={index} scrollX={scrollX} />
+          )}
         />
         <View
           style={{
             width: IMAGE_WIDTH,
             alignItems: "center",
-            paddingHorizontal: SPACING * 2,
-            marginLeft: SPACING * 2,
           }}>
-          <CarouselItemInfo item={DATA[0]} />
+          {DATA.map((item, index) => {
+            const inputRange = [
+              (index - 0.2) * width,
+              index * width,
+              (index + 0.2) * width,
+            ];
+            const opacity = scrollX.interpolate({
+              inputRange,
+              outputRange: [0, 1, 0],
+            });
+            const rotateY = scrollX.interpolate({
+              inputRange,
+              outputRange: ["45deg", "0deg", "45deg"],
+            });
+
+            return (
+              <Animated.View
+                key={item.key}
+                style={{
+                  position: "absolute",
+                  opacity,
+                  transform: [{ perspective: IMAGE_WIDTH * 4 }, { rotateY }],
+                }}>
+                <CarouselItemInfo item={item} />
+              </Animated.View>
+            );
+          })}
         </View>
-        <View
+        <Animated.View
           style={{
             width: IMAGE_WIDTH + SPACING * 2,
-            height: IMAGE_HEIGHT / 1.25,
+            height: IMAGE_HEIGHT * 1.5,
             position: "absolute",
             backgroundColor: "white",
             backfaceVisibility: "visible",
             zIndex: -1,
-            top: SPACING * 2,
-            left: SPACING,
-            // bottom: 0,
+            top: SPACING * 1.5,
             shadowColor: "#000",
             shadowOpacity: 0.2,
             shadowRadius: 24,
             shadowOffset: { width: 0, height: 0 },
+            transform: [
+              {
+                perspective: IMAGE_WIDTH * 4,
+              },
+              {
+                rotateY: progress.interpolate({
+                  inputRange: [0, 0.5, 1],
+                  outputRange: ["0deg", "90deg", "180deg"],
+                }),
+              },
+            ],
           }}
         />
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: IMAGE_WIDTH + SPACING * 4,
-          padding: SPACING,
-        }}>
-        <TouchableOpacity onPress={() => {}}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AntDesign name="swapleft" size={42} color="black" />
-            <Text style={{ fontSize: 12, fontWeight: "800" }}>PREV</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AntDesign name="swapright" size={42} color="black" />
-            <Text style={{ fontSize: 12, fontWeight: "800" }}>NEXT</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
+  );
+};
+
+const CarouselItem = ({
+  image,
+  index,
+  scrollX,
+}: {
+  image: ImageSourcePropType;
+  index: number;
+  scrollX: any;
+}) => {
+  const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+  const opacity = scrollX.interpolate({
+    inputRange,
+    outputRange: [0, 1, 0],
+  });
+  const translateY = scrollX.interpolate({
+    inputRange,
+    outputRange: [50, 0, 20],
+  });
+
+  return (
+    <Animated.View
+      style={{
+        width,
+        opacity,
+        transform: [{ translateY }],
+      }}>
+      <Image
+        source={image}
+        style={{
+          alignSelf: "center",
+          width: IMAGE_WIDTH,
+          height: IMAGE_HEIGHT,
+        }}
+      />
+    </Animated.View>
   );
 };
 
@@ -150,6 +175,7 @@ const CarouselItemInfo = ({ item }) => {
         style={{
           fontSize: 12,
           opacity: 0.4,
+          textAlign: "center",
         }}>
         {item.subtitle}
       </Text>
@@ -180,6 +206,6 @@ const CarouselItemInfo = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: SPACING * 4,
+    marginTop: SPACING * 4,
   },
 });
