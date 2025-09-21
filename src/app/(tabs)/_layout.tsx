@@ -81,6 +81,19 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="3DCarousel"
+        options={{
+          title: "3DCarousel",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name="3d-rotation"
+              size={focused ? 26 : 24}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
