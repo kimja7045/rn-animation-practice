@@ -24,6 +24,12 @@ export const HelloWorld = () => {
           router.push("/skia/CanvasDrawing");
         }}
       />
+      <Button
+        title="move webGpu"
+        onPress={() => {
+          router.push("/webGpu/HelloWebGpu");
+        }}
+      />
     </Center>
   );
 };
