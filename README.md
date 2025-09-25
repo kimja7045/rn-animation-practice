@@ -5,6 +5,9 @@
 
   <img height=800 src="https://github.com/kimja7045/rn-animation-practice/blob/main/src/assets/gradient-text.gif?raw=true">
 
+2. Circular Carousel
+https://github.com/user-attachments/assets/892c53a3-7aac-4056-8d06-b18d182c4a9a
+
 ### react-native-skia
 1. canvas drawing with react-native-skia > Path
 
