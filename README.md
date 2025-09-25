@@ -9,6 +9,10 @@
  
 https://github.com/user-attachments/assets/892c53a3-7aac-4056-8d06-b18d182c4a9a
 
+3. [3D Carousel](https://github.com/kimja7045/rn-animation-practice/pull/4)
+
+https://github.com/user-attachments/assets/963d7433-647f-4b01-addc-633ef6aea078
+
 
 ### react-native-skia
 1. canvas drawing with react-native-skia > Path
