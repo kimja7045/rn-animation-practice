@@ -1,5 +1,13 @@
-# Animation Practice
+# react native bits
 
+TODO
+
+- [ ] storybook setup
+- [ ] component > props로 애니매이션 옵션 조절 가능하도록 설정
+- [ ] 패키지 배포
+
+
+---
 ### reanimated 4
 1. GradientText
 
@@ -14,6 +22,7 @@ https://github.com/user-attachments/assets/892c53a3-7aac-4056-8d06-b18d182c4a9a
 https://github.com/user-attachments/assets/963d7433-647f-4b01-addc-633ef6aea078
 
 
+# ETC
 ### react-native-skia
 1. canvas drawing with react-native-skia > Path
 
