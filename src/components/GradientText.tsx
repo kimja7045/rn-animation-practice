@@ -2,12 +2,57 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import { StyleProp, StyleSheet, TextStyle, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
-type GradientTextProps = {
+interface GradientTextProps {
   text: string;
   textStyle?: StyleProp<TextStyle>;
-};
+  // Animation props
+  bounce?: number;
+  delay?: number;
+  mass?: number;
+  duration?: number;
+  disableAnimation?: boolean;
+  gradientColors?: string[];
+}
 
-export const GradientText = ({ text, textStyle }: GradientTextProps) => {
+export const GradientText = ({
+  text,
+  bounce,
+  delay = 33,
+  mass = 2,
+  duration = 3,
+  gradientColors = [
+    "rgba(247, 57, 247, 1)",
+    "rgba(220, 128, 245, 1)",
+    "rgba(15, 135, 247, 1)",
+  ],
+  textStyle,
+}: GradientTextProps) => {
+  const getAnimationConfig = (index: number) => {
+    let animation = FadeInDown.delay(index * delay).springify();
+
+    if (bounce) {
+      animation = animation.damping(bounce);
+    }
+
+    return animation.mass(mass);
+  };
+
+  const gradientStyle = {
+    experimental_backgroundImage: `linear-gradient(90deg, ${gradientColors.join(
+      ",",
+    )})`,
+  };
+
+  const animationStyle = {
+    animationName: {
+      to: {
+        transform: [{ rotate: "360deg" }],
+      },
+    },
+    animationDuration: `${duration}s`,
+    animationIterationCount: "infinite",
+  };
+
   return (
     <MaskedView
       style={styles.maskContainer}
@@ -17,29 +62,13 @@ export const GradientText = ({ text, textStyle }: GradientTextProps) => {
             <Animated.Text
               style={[styles.greeting, textStyle]}
               key={index}
-              entering={FadeInDown.delay(index * 33)
-                .springify()
-                // .damping(10)
-                .mass(2)}>
+              entering={getAnimationConfig(index)}>
               {char}
             </Animated.Text>
           ))}
         </View>
       }>
-      <Animated.View
-        style={[
-          styles.gradient,
-          {
-            animationName: {
-              to: {
-                transform: [{ rotate: "360deg" }],
-              },
-            },
-            animationDuration: "3s",
-            animationIterationCount: "infinite",
-          },
-        ]}
-      />
+      <Animated.View style={[styles.gradient, gradientStyle, animationStyle]} />
     </MaskedView>
   );
 };
@@ -51,8 +80,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   gradient: {
-    experimental_backgroundImage:
-      "linear-gradient(90deg,rgba(247, 57, 247, 1) 0%, rgba(220, 128, 245, 1) 45%, rgba(15, 135, 247, 1) 100%)",
     width: "100%",
     height: "100%",
   },
