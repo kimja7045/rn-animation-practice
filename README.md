@@ -1,11 +1,4 @@
-# react native bits
-
-TODO
-
-- [ ] storybook setup
-- [ ] component > props로 애니매이션 옵션 조절 가능하도록 설정
-- [ ] 패키지 배포
-
+# rn animation practice
 
 ---
 ### reanimated 4
