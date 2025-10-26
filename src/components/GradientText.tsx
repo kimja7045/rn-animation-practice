@@ -1,21 +1,29 @@
 import MaskedView from "@react-native-masked-view/masked-view";
 import { StyleProp, StyleSheet, TextStyle, View } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, {
+  ComplexAnimationBuilder,
+  FadeInDown,
+} from "react-native-reanimated";
 
 interface GradientTextProps {
   text: string;
-  textStyle?: StyleProp<TextStyle>;
-  // Animation props
+  /**
+   * @description
+   * Reanimated의 Entering/Exiting animation type 주입 가능
+   * @example Fade, Slide, Roll, Pinwheel 등등
+   */
+  preset: typeof ComplexAnimationBuilder;
   bounce?: number;
   delay?: number;
   mass?: number;
   duration?: number;
-  disableAnimation?: boolean;
+  textStyle?: StyleProp<TextStyle>;
   gradientColors?: string[];
 }
 
 export const GradientText = ({
   text,
+  preset = FadeInDown,
   bounce,
   delay = 33,
   mass = 2,
@@ -28,7 +36,7 @@ export const GradientText = ({
   textStyle,
 }: GradientTextProps) => {
   const getAnimationConfig = (index: number) => {
-    let animation = FadeInDown.delay(index * delay).springify();
+    let animation = preset.delay(index * delay).springify();
 
     if (bounce) {
       animation = animation.damping(bounce);
